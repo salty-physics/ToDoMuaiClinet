@@ -136,7 +136,7 @@ namespace ToDoMuaiClinet.DataServices
                 string jsonToDo = JsonSerializer.Serialize(toDo, _jsonSerializerOptions);
                 StringContent content = new StringContent(jsonToDo, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/todo", content);
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}/todo/{toDo.Id}", content);
 
                 if (response.IsSuccessStatusCode)
                 {
