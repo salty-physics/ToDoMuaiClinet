@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -38,9 +39,38 @@ namespace ToDoMuaiClinet.DataServices
             throw new NotImplementedException();
         }
 
-        public Task<List<ToDo>> GetAllToDoAsync()
+        public async Task<List<ToDo>> GetAllToDoAsync()
         {
-            throw new NotImplementedException();
+            List<ToDo> toDos = new List<ToDo>();
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("--> No internet");
+                return toDos;
+            }
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/todo");
+
+            try
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    toDos = JsonSerializer.Deserialize<List<ToDo>>(content, _jsonSerializerOptions);
+
+                }
+                else
+                {
+                    Debug.WriteLine($"Response code: {response.StatusCode}");
+                }
+            }
+            catch(Exception ex) 
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
+
+
+            return toDos;
         }
 
         public Task UpdateTaskAsync(ToDo toDo)
