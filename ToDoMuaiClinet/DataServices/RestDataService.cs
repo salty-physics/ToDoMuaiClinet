@@ -19,7 +19,7 @@ namespace ToDoMuaiClinet.DataServices
         public RestDataService()
         {
             _httpClient = new HttpClient();
-            _baseAddres = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000" : "https://localhost:5001";
+            _baseAddres = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5105" : "https://localhost:7008";
             _url = $"{_baseAddres}/api";
 
             _jsonSerializerOptions = new JsonSerializerOptions
@@ -103,7 +103,7 @@ namespace ToDoMuaiClinet.DataServices
 
             try
             {
-                if (!response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
                     toDos = JsonSerializer.Deserialize<List<ToDo>>(content, _jsonSerializerOptions);
