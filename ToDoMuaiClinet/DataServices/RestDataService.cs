@@ -29,9 +29,27 @@ namespace ToDoMuaiClinet.DataServices
         }
 
 
-        public Task AddTaskAsync(ToDo toDo)
+        public async Task AddTaskAsync(ToDo toDo)
         {
-            throw new NotImplementedException();
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("--> No internet");
+                return;
+            }
+
+            try
+            {
+                string jsonToDo = JsonSerializer.Serialize(toDo, _jsonSerializerOptions);
+                StringContent content = new StringContent(jsonToDo, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/todo", content);
+
+                if (response.IsSuccessStatusCode) Debug.Write("Created"); 
+
+            } catch(Exception ex) 
+            {
+               Debug.WriteLine($"Exception: {ex.Message}");
+            }
         }
 
         public Task DeleteTaskAsync(int id)
