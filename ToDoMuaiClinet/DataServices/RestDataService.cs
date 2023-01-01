@@ -44,7 +44,14 @@ namespace ToDoMuaiClinet.DataServices
 
                 HttpResponseMessage response = await _httpClient.PostAsync($"{_url}/todo", content);
 
-                if (response.IsSuccessStatusCode) Debug.Write("Created"); 
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.Write("Created");
+                }
+                else 
+                {
+                    Debug.WriteLine($"Response code: {response.StatusCode}");
+                }
 
             } catch(Exception ex) 
             {
@@ -52,10 +59,35 @@ namespace ToDoMuaiClinet.DataServices
             }
         }
 
-        public Task DeleteTaskAsync(int id)
+        public async Task DeleteTaskAsync(int id)
         {
-            throw new NotImplementedException();
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                Debug.WriteLine("--> No internet");
+                return;
+            }
+
+            try
+            {
+
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/todo/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.Write("Deleted");
+                }
+                else
+                {
+                    Debug.WriteLine($"Response code: {response.StatusCode}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception: {ex.Message}");
+            }
         }
+  
 
         public async Task<List<ToDo>> GetAllToDoAsync()
         {
