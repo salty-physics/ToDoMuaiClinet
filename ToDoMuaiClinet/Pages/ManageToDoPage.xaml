@@ -3,10 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToDoMuaiClinet.Pages.ManageToDoPage"
              Title="ManageToDoPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="0,5,0,5">
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    
+    <VerticalStackLayout Margin="20">
+        <Label Text="What do you want to do?"></Label>
+        <Entry Text="{Binding Path=ToDo.ToDoName}"
+               Placeholder="Enter item"></Entry>
+        
+        <Button Text="Save"
+                Clicked="OnSaveButtonClick"></Button>
+
+        <Button Text="Delete"
+                Clicked="OnDeleteButtonClick"></Button>
+
+        <Button Text="Cancel"
+                Clicked="OnCancelButtonClick"></Button>
     </VerticalStackLayout>
 </ContentPage>
