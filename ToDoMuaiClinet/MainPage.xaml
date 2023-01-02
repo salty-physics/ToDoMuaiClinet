@@ -8,9 +8,17 @@
                      Clicked="OnAddToDoClicked"></ToolbarItem>
     </ContentPage.ToolbarItems>
 
+
     <CollectionView x:Name="collectionView"
                     SelectionMode="Single"
-                    SelectionChanged="OnSelectionChanged">
+                    SelectionChanged="OnSelectionChanged"
+                    Margin="20">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical"
+                               ItemSpacing="20">
+            </LinearItemsLayout>
+        </CollectionView.ItemsLayout>
+        
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Label Text="{Binding ToDoName}"
