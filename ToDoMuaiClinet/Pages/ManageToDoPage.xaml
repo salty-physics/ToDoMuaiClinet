@@ -4,26 +4,40 @@
              x:Class="ToDoMuaiClinet.Pages.ManageToDoPage"
              Title="ManageToDoPage">
 
-    <ContentPage.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Margin"
-                    Value="0,5,0,5">
-            </Setter>
-        </Style>
-    </ContentPage.Resources>
-    
-    <VerticalStackLayout Margin="20">
-        <Label Text="What do you want to do?"></Label>
-        <Entry Text="{Binding Path=ToDo.ToDoName}"
-               Placeholder="Enter item"></Entry>
-        
+    <Grid RowDefinitions="*,Auto" 
+          ColumnDefinitions="*,*,*"
+          ColumnSpacing="5">
+        <TableView Intent="Data"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="3">
+            <TableRoot>
+                <TableSection Title="What do you want to do?">
+                    <EntryCell Text="{Binding Path=ToDo.ToDoName}"
+                               Placeholder="Enter item"></EntryCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+
         <Button Text="Save"
-                Clicked="OnSaveButtonClick"></Button>
+                Clicked="OnSaveButtonClick"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="20,5"></Button>
 
         <Button Text="Delete"
-                Clicked="OnDeleteButtonClick"></Button>
+                Clicked="OnDeleteButtonClick"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,5"></Button>
 
         <Button Text="Cancel"
-                Clicked="OnCancelButtonClick"></Button>
-    </VerticalStackLayout>
+                Clicked="OnCancelButtonClick"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="20,5"></Button>
+    </Grid>
+    
+
+
+
 </ContentPage>
