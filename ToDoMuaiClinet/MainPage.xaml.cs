@@ -1,24 +1,51 @@
-﻿namespace ToDoMuaiClinet;
+﻿using System.Diagnostics;
+using ToDoMuaiClinet.DataServices;
+using ToDoMuaiClinet.Models;
+using ToDoMuaiClinet.Pages;
+
+namespace ToDoMuaiClinet;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private readonly IRestDataService _dataService;
 
-	public MainPage()
+    public MainPage(IRestDataService dataService)
 	{
 		InitializeComponent();
-	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+        _dataService = dataService;
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        
+        collectionView.ItemsSource = await _dataService.GetAllToDoAsync();
+    }
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    async void OnAddToDoClicked(object sender, EventArgs e)
+    {
+        Debug.WriteLine("Add clicked");
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { nameof(ToDo), new ToDo() }
+        };
+
+        await Shell.Current.GoToAsync(nameof(ManageToDoPage), navigationParameter);
+    }
+
+    async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Debug.WriteLine("Selection changed");
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { nameof(ToDo), e.CurrentSelection.FirstOrDefault() as ToDo }
+        };
+
+        await Shell.Current.GoToAsync(nameof(ManageToDoPage), navigationParameter);
+    }
+
 }
 
