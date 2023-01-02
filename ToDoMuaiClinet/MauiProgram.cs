@@ -1,4 +1,5 @@
 ﻿using ToDoMuaiClinet.DataServices;
+using ToDoMuaiClinet.Pages;
 
 namespace ToDoMuaiClinet;
 
@@ -16,7 +17,8 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<IRestDataService, RestDataService>();
-		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddSingleton<MainPage>(); //lifetime: ciagle
+		builder.Services.AddTransient<ManageToDoPage>(); //dla stron on/off lifetime:request
 
 		return builder.Build();
 	}
