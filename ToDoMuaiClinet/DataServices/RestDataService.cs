@@ -16,9 +16,9 @@ namespace ToDoMuaiClinet.DataServices
         private readonly string _url;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public RestDataService()
+        public RestDataService(HttpClient httpclient)
         {
-            _httpClient = new HttpClient();
+            _httpClient = httpclient;
             _baseAddres = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5105" : "https://localhost:7008";
             _url = $"{_baseAddres}/api";
 

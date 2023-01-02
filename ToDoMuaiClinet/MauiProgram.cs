@@ -16,8 +16,10 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		builder.Services.AddSingleton<IRestDataService, RestDataService>();
-		builder.Services.AddSingleton<MainPage>(); //lifetime: ciagle
+        //builder.Services.AddSingleton<IRestDataService, RestDataService>();  //zalecany jest httpclientfactory
+        builder.Services.AddHttpClient<IRestDataService, RestDataService>();
+
+        builder.Services.AddSingleton<MainPage>(); //lifetime: ciagle
 		builder.Services.AddTransient<ManageToDoPage>(); //dla stron on/off lifetime:request
 
 		return builder.Build();
